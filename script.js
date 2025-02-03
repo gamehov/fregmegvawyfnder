@@ -73,9 +73,18 @@ function displayResults(giveaways) {
     // Check if the API provides an image
     const image = giveaway.image ? `<img src="${giveaway.image}" alt="${giveaway.title}">` : '';
 
+    // Modify the giveaway URL
+    let giveawayUrl = giveaway.open_giveaway_url;
+
+    // Option 1: Remove ?ref=gamerpower
+    giveawayUrl = giveawayUrl.replace('?ref=gamerpower', '');
+
+    // Option 2: Replace ?ref=gamerpower with ?ref=gamehov
+    // giveawayUrl = giveawayUrl.replace('?ref=gamerpower', '?ref=gamehov');
+
     // Wrap the image and title in an anchor tag
     card.innerHTML = `
-      <a href="${giveaway.open_giveaway_url}" target="_blank" class="clickable">
+      <a href="${giveawayUrl}" target="_blank" class="clickable">
         ${image}
         <h3>${giveaway.title}</h3>
       </a>
@@ -83,7 +92,7 @@ function displayResults(giveaways) {
       <p><strong>Type:</strong> ${giveaway.type}</p>
       <p><strong>Worth:</strong> ${giveaway.worth}</p>
       <p><strong>Ends:</strong> ${new Date(giveaway.end_date).toLocaleDateString()}</p>
-      <a href="${giveaway.open_giveaway_url}" target="_blank" class="get-it-now">Get it now!</a>
+      <a href="${giveawayUrl}" target="_blank" class="get-it-now">Get it now!</a>
     `;
 
     resultsDiv.appendChild(card);
