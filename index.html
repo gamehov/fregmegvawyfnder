@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Game Giveaways</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Free Game Giveaways</h1>
+    <div class="filters">
+      <label for="platform">Platform:</label>
+      <select id="platform">
+        <option value="">All Platforms</option>
+        <option value="pc">PC</option>
+        <option value="steam">Steam</option>
+        <option value="epic-games-store">Epic Games Store</option>
+        <option value="ps4">PS4</option>
+        <option value="ps5">PS5</option>
+        <option value="xbox-one">Xbox One</option>
+        <option value="xbox-series-xs">Xbox Series X|S</option>
+        <option value="switch">Nintendo Switch</option>
+        <option value="android">Android</option>
+        <option value="ios">iOS</option>
+      </select>
+
+      <label for="type">Type:</label>
+      <select id="type">
+        <option value="">All Types</option>
+        <option value="game">Game</option>
+        <option value="loot">Loot</option>
+        <option value="beta">Beta</option>
+      </select>
+
+      <label for="sort">Sort By:</label>
+      <select id="sort">
+        <option value="date">Date</option>
+        <option value="value">Value</option>
+        <option value="popularity">Popularity</option>
+      </select>
+
+      <button id="fetchButton">Get Giveaways</button>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading-spinner" style="display: none;">
+      <div class="spinner"></div>
+      <p>Loading giveaways...</p>
+    </div>
+
+    <!-- Results Container -->
+    <div id="results" class="results"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
