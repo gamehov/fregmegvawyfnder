@@ -1,5 +1,3 @@
-document.getElementById('fetchButton').addEventListener('click', fetchGiveaways);
-
 // Fetch the API key from Netlify Function
 fetch("/.netlify/functions/get-api-key")
   .then(response => response.json())
@@ -12,6 +10,7 @@ fetch("/.netlify/functions/get-api-key")
 // Initialize the app with the API key
 function initApp(API_KEY) {
   window.API_KEY = API_KEY; // Store the API key in a global variable
+  fetchGiveaways(); // Automatically call fetchGiveaways on page load
 }
 
 async function fetchGiveaways() {
