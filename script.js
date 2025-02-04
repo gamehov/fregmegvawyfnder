@@ -10,15 +10,18 @@ fetch("/.netlify/functions/get-api-key")
 // Initialize the app with the API key
 function initApp(API_KEY) {
   window.API_KEY = API_KEY; // Store the API key in a global variable
-  fetchGiveaways(); // Automatically call fetchGiveaways on page load
+  console.log("API Key fetched:", API_KEY); // Debugging
+  fetchGiveaways(); // Automatically fetch giveaways on page load
 }
 
+// Function to fetch giveaways based on filters
 async function fetchGiveaways() {
   if (!window.API_KEY) {
     console.error("API key is not available.");
     return;
   }
 
+  // Get selected filter values
   const platform = document.getElementById('platform').value;
   const type = document.getElementById('type').value;
   const sort = document.getElementById('sort').value;
@@ -27,11 +30,13 @@ async function fetchGiveaways() {
   document.getElementById('loading').style.display = 'block';
   document.getElementById('results').innerHTML = '';
 
-  // Build the API URL with filters
+  // Build the API URL dynamically
   let url = 'https://gamerpower.p.rapidapi.com/api/giveaways';
-  if (platform) url += `?platform=${platform}`;
-  if (type) url += `${platform ? '&' : '?'}type=${type}`;
-  if (sort) url += `${platform || type ? '&' : '?'}sort-by=${sort}`;
+  const params = new URLSearchParams();
+  if (platform) params.append('platform', platform);
+  if (type) params.append('type', type);
+  if (sort) params.append('sort-by', sort);
+  if (params.toString()) url += `?${params.toString()}`;
 
   try {
     const response = await fetch(url, {
@@ -56,6 +61,7 @@ async function fetchGiveaways() {
   }
 }
 
+// Function to display fetched giveaways
 function displayResults(giveaways) {
   const resultsDiv = document.getElementById('results');
   resultsDiv.innerHTML = '';
@@ -73,13 +79,7 @@ function displayResults(giveaways) {
     const image = giveaway.image ? `<img src="${giveaway.image}" alt="${giveaway.title}">` : '';
 
     // Modify the giveaway URL
-    let giveawayUrl = giveaway.open_giveaway_url;
-
-    // Option 1: Remove ?ref=gamerpower
-    giveawayUrl = giveawayUrl.replace('?ref=gamerpower', '');
-
-    // Option 2: Replace ?ref=gamerpower with ?ref=gamehov
-    // giveawayUrl = giveawayUrl.replace('?ref=gamerpower', '?ref=gamehov');
+    let giveawayUrl = giveaway.open_giveaway_url.replace('?ref=gamerpower', '');
 
     // Wrap the image and title in an anchor tag
     card.innerHTML = `
@@ -97,3 +97,6 @@ function displayResults(giveaways) {
     resultsDiv.appendChild(card);
   });
 }
+
+// 🔹 Re-added Event Listener for the button to fetch giveaways when clicked
+document.getElementById('fetchButton').addEventListener('click', fetchGiveaways);
